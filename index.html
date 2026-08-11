@@ -1,0 +1,238 @@
+<!-- Le contenu de la page -->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Une petite question ❤️</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Écran d'ouverture -->
+    <div id="ecran-ouverture">
+
+        <div class="message">
+
+            <div class="coeur">💌</div>
+
+            <h1>Tu as reçu un petit message...</h1>
+
+            <button id="bouton-ouvrir">Ouvrir 💕</button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Écran de la question -->
+    <div id="ecran-question">
+
+        <h2>J'ai une petite question pour toi... ❤️</h2>
+
+        <div class="question-cachee">
+
+            <p>Veux-tu sortir avec moi ?</p>
+
+            <div class="boutons">
+
+                <button id="bouton-oui">
+                    OUI ❤️
+                </button>
+
+                <button id="bouton-non">
+                    NON 😏
+                </button>
+
+            </div>
+
+            <!-- Message qui apparaîtra après les clics sur NON -->
+            <p id="message-non"></p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Écran après le OUI -->
+    <div id="ecran-oui">
+
+        <div class="message-oui">
+
+            <div class="emoji-oui">🎉</div>
+
+            <h2>Je savais que tu dirais oui ! 😌❤️</h2>
+
+            <p>Bon... maintenant que c'est officiel,</p>
+
+            <p>passons aux choses sérieuses 😏</p>
+
+            <div class="navigation-oui">
+
+                <button id="bouton-retour-oui">
+                    ← Retour
+                </button>
+
+                <button id="bouton-continuer">
+                    CONTINUER 💕
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Écran du choix du lieu -->
+    <div id="ecran-lieu">
+
+        <div class="message-lieu">
+
+            <div class="emoji-lieu">📍</div>
+
+            <h2>Alors... où veux-tu qu'on se retrouve ? ❤️</h2>
+
+            <div class="lieux">
+
+                <button class="choix-lieu" data-lieu="Restaurant">
+
+                    <span class="emoji-choix">🍽️</span>
+
+                    <span>Restaurant</span>
+
+                </button>
+
+
+                <button class="choix-lieu" data-lieu="Plage">
+
+                    <span class="emoji-choix">🏖️</span>
+
+                    <span>Plage</span>
+
+                </button>
+
+
+                <button class="choix-lieu" data-lieu="Cinéma">
+
+                    <span class="emoji-choix">🎬</span>
+
+                    <span>Cinéma</span>
+
+                </button>
+
+
+                <button class="choix-lieu" data-lieu="Promenade">
+
+                    <span class="emoji-choix">🌳</span>
+
+                    <span>Promenade</span>
+
+                </button>
+
+            </div>
+
+
+            <div class="navigation">
+
+                <button id="bouton-retour-lieu">
+                    ← Retour
+                </button>
+
+                <button id="bouton-continuer-lieu" disabled>
+                    CONTINUER 💕
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Écran du choix de la date et de l'heure -->
+<div id="ecran-date-heure">
+
+    <div class="message-date-heure">
+
+        <div class="emoji-date-heure">📅</div>
+
+        <h2>Et quand est-ce qu'on se retrouve ? ❤️</h2>
+
+        <div class="champ-date">
+
+            <label for="date-rendez-vous">
+                Choisis une date
+            </label>
+
+            <input
+                type="date"
+                id="date-rendez-vous"
+            >
+
+        </div>
+
+
+        <div class="champ-heure">
+
+            <label for="heure-rendez-vous">
+                Choisis une heure
+            </label>
+
+            <input
+                type="time"
+                id="heure-rendez-vous"
+            >
+
+        </div>
+
+
+        <div class="navigation-date">
+
+            <button id="bouton-retour-date">
+                ← Retour
+            </button>
+
+            <button id="bouton-continuer-date" disabled>
+                CONTINUER 💕
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Écran final de confirmation -->
+<div id="ecran-confirmation">
+
+    <div class="message-confirmation">
+
+        <div class="emoji-confirmation">🎉</div>
+
+        <h2>C'est officiellement un rendez-vous ! ❤️</h2>
+
+        <p id="message-rendez-vous"></p>
+
+        <p class="merci">
+            Merci d'avoir accepté ce petit rendez-vous 🥰
+        </p>
+
+        <button id="bouton-retour-confirmation">
+            ← Retour
+        </button>
+
+    </div>
+
+</div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
