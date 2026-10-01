@@ -75,8 +75,37 @@ body {
 
 .coeur {
     font-size: 80px;
-
     margin-bottom: 20px;
+}
+
+.coeur img {
+    width: 210px;
+    height: auto;
+    animation: enveloppe 2s ease-in-out infinite;
+}
+
+@keyframes enveloppe {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-4deg);
+    }
+
+    50% {
+        transform: rotate(4deg);
+    }
+
+    75% {
+        transform: rotate(-2deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+
 }
 
 
@@ -128,6 +157,17 @@ button:hover {
     color: white;
 }
 
+.sticker-question {
+    width: 200px;
+    height: auto;
+    margin: 15px auto;
+    display: block;
+}
+
+#ecran-question h2 {
+    margin-bottom: 10px;
+    transform: translateY(60px);
+}
 
 /* ================================= */
 /* ÉCRAN DE LA QUESTION              */
@@ -950,4 +990,97 @@ button:hover {
         font-size: 20px;
     }
 
+}
+
+/* =============================
+   ÉCRAN DU PRÉNOM
+   ============================= */
+
+#ecran-prenom {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.message-prenom {
+    width: 90%;
+    max-width: 500px;
+}
+
+.emoji-prenom {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.message-prenom h2 {
+    margin-bottom: 30px;
+}
+
+.champ-prenom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.champ-prenom label {
+    font-size: 18px;
+}
+
+.champ-prenom input {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.navigation-prenom {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.navigation-prenom button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.navigation-prenom button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sticker-lieu {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.sticker-date-heure {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.sticker-prenom {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.sticker-confirmation {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.sticker-oui {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
 }

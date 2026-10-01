@@ -1,3 +1,5 @@
+const URL_GOOGLE_SHEETS = "https://script.google.com/macros/s/AKfycbx3HaYZM4WzPymxhszf86i3nB5xSray3SZHbfQI7MkyGazSzls-FbaVb04zGREufAYA/exec";
+
 // Les interactions et la logique
 
 
@@ -39,7 +41,27 @@ const boutonContinuerDate = document.getElementById("bouton-continuer-date");
 
 const boutonRetourDate = document.getElementById("bouton-retour-date");
 
+const ecranPrenom = document.getElementById("ecran-prenom");
+
+const boutonContinuerPrenom = document.getElementById("bouton-continuer-prenom");
+
+const boutonRetourPrenom = document.getElementById("bouton-retour-prenom");
+
+const prenomRendezVous = document.getElementById("prenom-rendez-vous");
+
 const dateRendezVous = document.getElementById("date-rendez-vous");
+
+const aujourdHui = new Date();
+
+const annee = aujourdHui.getFullYear();
+
+const moisActuel = String(aujourdHui.getMonth() + 1).padStart(2, "0");
+
+const jourActuel = String(aujourdHui.getDate()).padStart(2, "0");
+
+const dateMinimum = `${annee}-${moisActuel}-${jourActuel}`;
+
+dateRendezVous.min = dateMinimum;
 
 const heureRendezVous = document.getElementById("heure-rendez-vous");
 
@@ -47,12 +69,12 @@ const ecranConfirmation = document.getElementById("ecran-confirmation");
 
 const messageRendezVous = document.getElementById("message-rendez-vous");
 
-const boutonRetourConfirmation = document.getElementById("bouton-retour-confirmation");
-
 
 let dateSelectionnee = null;
 
 let heureSelectionnee = null;
+
+let prenomSelectionne = null;
 
 
 // =============================
@@ -142,7 +164,7 @@ boutonNon.addEventListener("click", function() {
     // Troisième clic
     else if (nombreClicsNon === 3) {
 
-        messageNon.textContent = "Dis simplement oui 😏❤️";
+        messageNon.textContent = "Dis simplement oui ❤️";
 
         messageNon.classList.add("visible");
 
@@ -323,15 +345,59 @@ boutonRetourDate.addEventListener("click", function() {
 
 boutonContinuerDate.addEventListener("click", function() {
 
-    // Vérification
     if (dateSelectionnee === null || heureSelectionnee === null) {
         return;
     }
 
-    // Création de la date
+    // On cache l'écran date et heure
+    ecranDateHeure.style.display = "none";
+
+    // On affiche l'écran du prénom
+    ecranPrenom.style.display = "flex";
+
+});
+
+
+// =============================
+// CHOIX DU PRÉNOM
+// =============================
+
+prenomRendezVous.addEventListener("input", function() {
+
+    prenomSelectionne = prenomRendezVous.value.trim();
+
+    if (prenomSelectionne !== "") {
+        boutonContinuerPrenom.disabled = false;
+    } else {
+        boutonContinuerPrenom.disabled = true;
+    }
+
+});
+
+
+// =============================
+// RETOUR DEPUIS L'ÉCRAN DU PRÉNOM
+// =============================
+
+boutonRetourPrenom.addEventListener("click", function() {
+
+    ecranPrenom.style.display = "none";
+    ecranDateHeure.style.display = "flex";
+
+});
+
+
+// =============================
+// CONTINUER APRÈS LE PRÉNOM
+// =============================
+
+boutonContinuerPrenom.addEventListener("click", function() {
+
+    if (prenomSelectionne === null || prenomSelectionne === "") {
+        return;
+    }
     const date = new Date(dateSelectionnee + "T00:00:00");
 
-    // Récupération du jour
     const jours = [
         "dimanche",
         "lundi",
@@ -342,7 +408,6 @@ boutonContinuerDate.addEventListener("click", function() {
         "samedi"
     ];
 
-    // Récupération du mois
     const mois = [
         "janvier",
         "février",
@@ -359,59 +424,42 @@ boutonContinuerDate.addEventListener("click", function() {
     ];
 
     const jour = jours[date.getDay()];
-
     const numeroJour = date.getDate();
-
     const nomMois = mois[date.getMonth()];
 
-    // Construction de la phrase
-    // =============================
-// FORMATAGE DU LIEU ET DE L'HEURE
-// =============================
+    const formulationsLieu = {
+        "Restaurant": "au restaurant",
+        "Plage": "à la plage",
+        "Cinéma": "au cinéma",
+        "Promenade": "en promenade"
+    };
 
-const formulationsLieu = {
-    "Restaurant": "au restaurant",
-    "Plage": "à la plage",
-    "Cinéma": "au cinéma",
-    "Promenade": "en promenade"
-};
+    const formulationLieu = formulationsLieu[lieuSelectionne];
 
-const formulationLieu = formulationsLieu[lieuSelectionne];
+    const heureFormatee = heureSelectionnee
+        .replace(":00", "h")
+        .replace(":", "h");
 
+    messageRendezVous.textContent =
+        `Alors, on se retrouve ${formulationLieu} le ${jour} ${numeroJour} ${nomMois} à ${heureFormatee} ! ❤️`;
 
-// Transformation de 22:00 en 22h
-// et de 19:30 en 19h30
+    const donneesRendezVous = new URLSearchParams();
 
-const heureFormatee = heureSelectionnee
-    .replace(":00", "h")
-    .replace(":", "h");
+    donneesRendezVous.append("prenom", prenomSelectionne);
+    donneesRendezVous.append("lieu", lieuSelectionne);
+    donneesRendezVous.append("date", dateSelectionnee);
+    donneesRendezVous.append("heure", heureSelectionnee);
 
+    fetch(URL_GOOGLE_SHEETS, {
+        method: "POST",
+        mode: "no-cors",
+        body: donneesRendezVous
+    });
 
-// =============================
-// MESSAGE FINAL
-// =============================
-
-messageRendezVous.textContent =
-    `Alors, on se retrouve ${formulationLieu} le ${jour} ${numeroJour} ${nomMois} à ${heureFormatee} ! ❤️`;
-    
-    // On cache l'écran date/heure
-    ecranDateHeure.style.display = "none";
-
-    // On affiche l'écran final
+    ecranPrenom.style.display = "none";
     ecranConfirmation.style.display = "flex";
 
 });
 
-// =============================
-// RETOUR DEPUIS LA CONFIRMATION
-// =============================
 
-boutonRetourConfirmation.addEventListener("click", function() {
 
-    // On cache l'écran final
-    ecranConfirmation.style.display = "none";
-
-    // On revient à l'écran date et heure
-    ecranDateHeure.style.display = "flex";
-
-});
