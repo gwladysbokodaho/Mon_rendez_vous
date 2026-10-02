@@ -1,3 +1,6 @@
+// JavaScript est le cerveau du site. 
+// Il permet de faire agir le site en fonction de ce que fait l'utilisateur.
+
 const URL_GOOGLE_SHEETS = "https://script.google.com/macros/s/AKfycbx3HaYZM4WzPymxhszf86i3nB5xSray3SZHbfQI7MkyGazSzls-FbaVb04zGREufAYA/exec";
 
 // Les interactions et la logique
@@ -54,14 +57,14 @@ const dateRendezVous = document.getElementById("date-rendez-vous");
 const aujourdHui = new Date();
 
 const annee = aujourdHui.getFullYear();
-
 const moisActuel = String(aujourdHui.getMonth() + 1).padStart(2, "0");
-
 const jourActuel = String(aujourdHui.getDate()).padStart(2, "0");
 
 const dateMinimum = `${annee}-${moisActuel}-${jourActuel}`;
+const dateMaximum = `${annee}-12-31`;
 
 dateRendezVous.min = dateMinimum;
+dateRendezVous.max = dateMaximum;
 
 const heureRendezVous = document.getElementById("heure-rendez-vous");
 
@@ -312,10 +315,27 @@ heureRendezVous.addEventListener("change", function() {
 // =============================
 // VÉRIFICATION DATE + HEURE
 // =============================
-
 function verifierDateEtHeure() {
 
-    if (dateSelectionnee !== null && heureSelectionnee !== null) {
+    const aujourdHui = new Date();
+
+    const annee = aujourdHui.getFullYear();
+    const mois = String(aujourdHui.getMonth() + 1).padStart(2, "0");
+    const jour = String(aujourdHui.getDate()).padStart(2, "0");
+
+    const dateMinimum = `${annee}-${mois}-${jour}`;
+    const dateMaximum = `${annee}-12-31`;
+
+    const dateValide =
+        dateSelectionnee !== null &&
+        dateSelectionnee >= dateMinimum &&
+        dateSelectionnee <= dateMaximum;
+
+    const heureValide =
+        heureSelectionnee !== null &&
+        heureSelectionnee !== "";
+
+    if (dateValide && heureValide) {
 
         boutonContinuerDate.disabled = false;
 
@@ -325,7 +345,9 @@ function verifierDateEtHeure() {
 
     }
 
-}// =============================
+}
+
+// =============================
 // RETOUR VERS LE CHOIX DU LIEU
 // =============================
 
@@ -349,12 +371,24 @@ boutonContinuerDate.addEventListener("click", function() {
         return;
     }
 
-    // On cache l'écran date et heure
+    const aujourdHui = new Date();
+
+    const annee = aujourdHui.getFullYear();
+    const mois = String(aujourdHui.getMonth() + 1).padStart(2, "0");
+    const jour = String(aujourdHui.getDate()).padStart(2, "0");
+
+    const dateMinimum = `${annee}-${mois}-${jour}`;
+    const dateMaximum = `${annee}-12-31`;
+
+    if (
+        dateSelectionnee < dateMinimum ||
+        dateSelectionnee > dateMaximum
+    ) {
+        return;
+    }
+
     ecranDateHeure.style.display = "none";
-
-    // On affiche l'écran du prénom
     ecranPrenom.style.display = "flex";
-
 });
 
 
@@ -366,7 +400,9 @@ prenomRendezVous.addEventListener("input", function() {
 
     prenomSelectionne = prenomRendezVous.value.trim();
 
-    if (prenomSelectionne !== "") {
+    const prenomValide = /^[\p{L}\s-]+$/u.test(prenomSelectionne);
+
+    if (prenomValide) {
         boutonContinuerPrenom.disabled = false;
     } else {
         boutonContinuerPrenom.disabled = true;
@@ -393,7 +429,9 @@ boutonRetourPrenom.addEventListener("click", function() {
 
 boutonContinuerPrenom.addEventListener("click", function() {
 
-    if (prenomSelectionne === null || prenomSelectionne === "") {
+    const prenomValide = /^[\p{L}\s-]+$/u.test(prenomSelectionne);
+
+    if (!prenomValide) {
         return;
     }
     const date = new Date(dateSelectionnee + "T00:00:00");
